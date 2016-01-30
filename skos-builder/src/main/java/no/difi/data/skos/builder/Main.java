@@ -1,13 +1,26 @@
 package no.difi.data.skos.builder;
 
+import no.difi.data.skos.model.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.nio.file.Paths;
 
 public class Main {
 
     private static Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String... args) throws Exception {
+        Workspace workspace = new Workspace(Paths.get("los"));
+        workspace.cleanTarget();
+
+        Config config = workspace.getConfig();
+        logger.info("Project \"{}\".", config.getName());
+
+        Objects objects = workspace.getObjects();
+        logger.info("Found {} objects.", objects.size());
+
+        objects.populate();
 
         /*
         Node node = map.get("http://psi.norge.no/los/ord/adopsjon");

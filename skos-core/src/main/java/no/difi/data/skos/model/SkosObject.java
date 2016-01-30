@@ -3,7 +3,7 @@ package no.difi.data.skos.model;
 import java.util.HashMap;
 import java.util.Map;
 
-abstract class SkosObject {
+public abstract class SkosObject {
 
     private Map<String, String> label = new HashMap<>();
 

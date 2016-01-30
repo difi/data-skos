@@ -28,7 +28,8 @@ public class Concept extends SkosObject {
         if (this.broader == null)
             this.broader = new ArrayList<>();
 
-        this.broader.add(broader);
+        if (!this.broader.contains(broader))
+            this.broader.add(broader);
     }
 
     public List<String> getBroader() {
@@ -39,9 +40,12 @@ public class Concept extends SkosObject {
         this.broader = broader;
     }
 
-    public void addNarrower() {
+    public void addNarrower(String narrower) {
         if (this.narrower == null)
             this.narrower = new ArrayList<>();
+
+        if (!this.narrower.contains(narrower))
+            this.narrower.add(narrower);
     }
 
     public List<String> getNarrower() {
@@ -52,12 +56,28 @@ public class Concept extends SkosObject {
         this.narrower = narrower;
     }
 
+    public void addBroaderTransitive(String broaderTransitive) {
+        if (this.broaderTransitive == null)
+            this.broaderTransitive = new ArrayList<>();
+
+        if (!this.broaderTransitive.contains(broaderTransitive))
+            this.broaderTransitive.add(broaderTransitive);
+    }
+
     public List<String> getBroaderTransitive() {
         return broaderTransitive;
     }
 
     public void setBroaderTransitive(List<String> broaderTransitive) {
         this.broaderTransitive = broaderTransitive;
+    }
+
+    public void addNarrowerTransitive(String narrowerTransitive) {
+        if (this.narrowerTransitive == null)
+            this.narrowerTransitive = new ArrayList<>();
+
+        if (!this.narrowerTransitive.contains(narrowerTransitive))
+            this.narrowerTransitive.add(narrowerTransitive);
     }
 
     public List<String> getNarrowerTransitive() {
@@ -72,7 +92,8 @@ public class Concept extends SkosObject {
         if (this.related == null)
             this.related = new ArrayList<>();
 
-        this.related.add(related);
+        if (!this.related.contains(related))
+            this.related.add(related);
     }
 
     public List<String> getRelated() {

@@ -2,3 +2,4 @@
 target
 *.iml
 /los
+dependency-reduced-pom.xml

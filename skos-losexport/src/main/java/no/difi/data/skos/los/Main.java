@@ -1,16 +1,9 @@
 package no.difi.data.skos.los;
 
-import no.difi.data.skos.model.Collection;
-import no.difi.data.skos.model.Concept;
 import no.difi.data.skos.model.Config;
+import no.difi.data.skos.yaml.YamlInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.introspector.Property;
-import org.yaml.snakeyaml.nodes.NodeTuple;
-import org.yaml.snakeyaml.nodes.Tag;
-import org.yaml.snakeyaml.representer.Representer;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -19,7 +12,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Main {
@@ -42,22 +34,11 @@ public class Main {
                         map.put(node.getIdentifier(), node);
                         break;
                     case "assosiasjon":
-                        readAssosiasjon(reader, map);
+                        loadAssosiasjon(reader, map);
                         break;
                 }
             }
         }
-
-        Representer representer = new MyRepresenter();
-        representer.addClassTag(Collection.class, new Tag("!collection"));
-        representer.addClassTag(Concept.class, new Tag("!concept"));
-        representer.addClassTag(Config.class, new Tag("!config"));
-
-        DumperOptions options = new DumperOptions();
-        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        options.setCanonical(false);
-
-        Yaml yaml = new Yaml(representer, options);
 
         for (String uri : map.keySet()) {
             Node n = map.get(uri);
@@ -71,9 +52,9 @@ public class Main {
                 Files.createDirectories(path.getParent());
 
                 if (uri.equals("struktur")) {
-                    yaml.dump(n.toCollection(), Files.newBufferedWriter(path));
+                    YamlInstance.getInstance().dump(n.toCollection(), Files.newBufferedWriter(path));
                 } else {
-                    yaml.dump(n.toConcept(), Files.newBufferedWriter(path));
+                    YamlInstance.getInstance().dump(n.toConcept(), Files.newBufferedWriter(path));
                 }
             }
         }
@@ -81,21 +62,7 @@ public class Main {
         Config config = new Config();
         config.setName("Los");
         config.setRoot("http://psi.norge.no/los/");
-        yaml.dump(config, Files.newBufferedWriter(Paths.get("los/config.yaml")));
-    }
-
-    static class MyRepresenter extends Representer {
-        @Override
-        protected NodeTuple representJavaBeanProperty(Object javaBean, Property property, Object propertyValue, Tag customTag) {
-            if (propertyValue == null)
-                return null;
-            if (propertyValue instanceof List && ((List) propertyValue).isEmpty())
-                return null;
-            if (propertyValue instanceof Map && ((Map) propertyValue).isEmpty())
-                return null;
-
-            return super.representJavaBeanProperty(javaBean, property, propertyValue, customTag);
-        }
+        YamlInstance.getInstance().dump(config, Files.newBufferedWriter(Paths.get("los/config.yaml")));
     }
 
     public static Node readEmne(XMLStreamReader reader) throws Exception {
@@ -128,12 +95,6 @@ public class Main {
                         reader.next();
                         node.setDescription(reader.getText());
                         break;
-
-                    /*
-                    default:
-                        logger.info(reader.getLocalName());
-                        break;
-                        */
                 }
             }
             else if (reader.getEventType() == XMLStreamConstants.END_ELEMENT && reader.getLocalName().equalsIgnoreCase("emne"))
@@ -143,7 +104,7 @@ public class Main {
         return node;
     }
 
-    public static void readAssosiasjon(XMLStreamReader reader, Map<String, Node> map) throws Exception {
+    public static void loadAssosiasjon(XMLStreamReader reader, Map<String, Node> map) throws Exception {
         Association[] associations = new Association[2];
         int counter = 0;
 
