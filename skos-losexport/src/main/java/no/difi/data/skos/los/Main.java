@@ -1,5 +1,6 @@
 package no.difi.data.skos.los;
 
+import no.difi.data.skos.model.ConceptScheme;
 import no.difi.data.skos.model.Config;
 import no.difi.data.skos.yaml.YamlInstance;
 import org.slf4j.Logger;
@@ -8,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -59,12 +61,27 @@ public class Main {
             }
         }
 
+        Files.createDirectories(Paths.get("los/src/ontologi"));
+        addConceptScheme("ord", "Ord", "Ord");
+        addConceptScheme("emneord", "Emneord", "Emneord");
+        addConceptScheme("hjelpeord", "Hjelpeord", "Hjelpeord");
+        addConceptScheme("tema", "Tema", "Tema");
+        addConceptScheme("hovedtema", "Hovedtema", "Hovedtema");
+        addConceptScheme("undertema", "Undertema", "Undertema");
+
         Config config = new Config();
         config.setName("Los");
         config.setRoot("http://psi.norge.no/los/");
         config.addBuild("no.difi.data.skos.builder.build.RdfSingleBuild");
         config.addBuild("no.difi.data.skos.builder.build.RdfMultipleBuild");
         YamlInstance.getInstance().dump(config, Files.newBufferedWriter(Paths.get("los/config.yaml")));
+    }
+
+    public static void addConceptScheme(String file, String labelNb, String labelNn) throws IOException {
+        ConceptScheme ordConceptScheme = new ConceptScheme();
+        ordConceptScheme.addLabel("nb", labelNb);
+        ordConceptScheme.addLabel("nn", labelNn);
+        YamlInstance.getInstance().dump(ordConceptScheme, Files.newBufferedWriter(Paths.get("los/src/ontologi/" + file + ".yaml")));
     }
 
     public static Node readEmne(XMLStreamReader reader) throws Exception {

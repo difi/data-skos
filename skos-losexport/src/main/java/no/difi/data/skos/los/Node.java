@@ -67,7 +67,7 @@ public class Node {
         Collection collection = new Collection();
 
         for (Language language : title.keySet())
-            collection.getLabel().put(language.name(), title.get(language));
+            collection.addLabel(language.name(), title.get(language));
 
         return collection;
     }
@@ -75,10 +75,11 @@ public class Node {
     public Concept toConcept() {
         Concept concept = new Concept();
 
+        concept.setInScheme(getType().replace("http://psi.norge.no/los/", ""));
         for (Language language : title.keySet())
-            concept.getLabel().put(language.name(), title.get(language));
+            concept.addLabel(language.name(), title.get(language));
         if (description != null)
-            concept.getDefinition().put(Language.nn.name(), description);
+            concept.addDefinition(Language.nn.name(), description);
 
         for (Association association : associations) {
             switch (association.getType()) {
@@ -91,7 +92,7 @@ public class Node {
                     break;
 
                 case "http://psi.norge.no/los/ontologi/se":
-                    concept.getBroaderTransitive().add(association.getReference().replace("http://psi.norge.no/los/", ""));
+                    concept.addBroaderTransitive(association.getReference().replace("http://psi.norge.no/los/", ""));
                     break;
 
                 case "http://www.techquila.com/psi/thesaurus/#narrower":

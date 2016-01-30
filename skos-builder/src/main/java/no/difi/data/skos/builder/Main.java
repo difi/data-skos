@@ -1,8 +1,6 @@
 package no.difi.data.skos.builder;
 
 import no.difi.data.skos.builder.api.Build;
-import no.difi.data.skos.builder.build.RdfMultipleBuild;
-import no.difi.data.skos.builder.build.RdfSingleBuild;
 import no.difi.data.skos.model.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

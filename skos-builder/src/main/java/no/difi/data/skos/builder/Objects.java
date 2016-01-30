@@ -2,6 +2,7 @@ package no.difi.data.skos.builder;
 
 import no.difi.data.skos.model.Collection;
 import no.difi.data.skos.model.Concept;
+import no.difi.data.skos.model.ConceptScheme;
 import no.difi.data.skos.model.SkosObject;
 
 import java.util.HashMap;
@@ -63,5 +64,9 @@ public class Objects extends HashMap<String, SkosObject> {
 
     public Concept getConcept(String key) {
         return (Concept) get(key);
+    }
+
+    public ConceptScheme getConceptScheme(String key) {
+        return (ConceptScheme) get(key);
     }
 }

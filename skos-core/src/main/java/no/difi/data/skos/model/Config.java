@@ -21,6 +21,7 @@ public class Config {
         return build;
     }
 
+    @SuppressWarnings("unused")
     public void setBuild(List<String> build) {
         this.build = build;
     }

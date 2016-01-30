@@ -10,14 +10,15 @@ public class Concept extends SkosObject {
     private List<String> broader;
     private List<String> narrower;
 
-    private List<String> broaderTransitive = new ArrayList<>();
-    private List<String> narrowerTransitive = new ArrayList<>();
+    private List<String> broaderTransitive;
+    private List<String> narrowerTransitive;
 
     private List<String> related;
 
-    private Map<String, String> definition = new HashMap<>();
+    private Map<String, String> definition;
 
     private String hasTopConcept;
+    private String inScheme;
 
     public void addBroader(String broader) {
         if (broader.equals("tema/temastruktur")) {
@@ -36,6 +37,7 @@ public class Concept extends SkosObject {
         return broader;
     }
 
+    @SuppressWarnings("unused")
     public void setBroader(List<String> broader) {
         this.broader = broader;
     }
@@ -52,6 +54,7 @@ public class Concept extends SkosObject {
         return narrower;
     }
 
+    @SuppressWarnings("unused")
     public void setNarrower(List<String> narrower) {
         this.narrower = narrower;
     }
@@ -68,6 +71,7 @@ public class Concept extends SkosObject {
         return broaderTransitive;
     }
 
+    @SuppressWarnings("unused")
     public void setBroaderTransitive(List<String> broaderTransitive) {
         this.broaderTransitive = broaderTransitive;
     }
@@ -84,6 +88,7 @@ public class Concept extends SkosObject {
         return narrowerTransitive;
     }
 
+    @SuppressWarnings("unused")
     public void setNarrowerTransitive(List<String> narrowerTransitive) {
         this.narrowerTransitive = narrowerTransitive;
     }
@@ -100,14 +105,23 @@ public class Concept extends SkosObject {
         return related;
     }
 
+    @SuppressWarnings("unused")
     public void setRelated(List<String> related) {
         this.related = related;
+    }
+
+    public void addDefinition(String language, String definition) {
+        if (this.definition == null)
+            this.definition = new HashMap<>();
+
+        this.definition.put(language, definition);
     }
 
     public Map<String, String> getDefinition() {
         return definition;
     }
 
+    @SuppressWarnings("unused")
     public void setDefinition(Map<String, String> definition) {
         this.definition = definition;
     }
@@ -118,5 +132,13 @@ public class Concept extends SkosObject {
 
     public void setHasTopConcept(String hasTopConcept) {
         this.hasTopConcept = hasTopConcept;
+    }
+
+    public String getInScheme() {
+        return inScheme;
+    }
+
+    public void setInScheme(String inScheme) {
+        this.inScheme = inScheme;
     }
 }

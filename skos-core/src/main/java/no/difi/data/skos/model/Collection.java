@@ -19,6 +19,7 @@ public class Collection extends SkosObject {
         return topConceptOf;
     }
 
+    @SuppressWarnings("unused")
     public void setTopConceptOf(List<String> topConceptOf) {
         this.topConceptOf = topConceptOf;
     }
