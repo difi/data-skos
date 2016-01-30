@@ -62,4 +62,10 @@ public class Workspace {
             });
         }
     }
+
+    public Path getTargetPath(String relative) throws IOException {
+        Path result = targetFolder.resolve(relative);
+        Files.createDirectories(result.getParent());
+        return result;
+    }
 }

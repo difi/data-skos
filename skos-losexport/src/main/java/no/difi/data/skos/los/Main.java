@@ -62,6 +62,8 @@ public class Main {
         Config config = new Config();
         config.setName("Los");
         config.setRoot("http://psi.norge.no/los/");
+        config.addBuild("no.difi.data.skos.builder.build.RdfSingleBuild");
+        config.addBuild("no.difi.data.skos.builder.build.RdfMultipleBuild");
         YamlInstance.getInstance().dump(config, Files.newBufferedWriter(Paths.get("los/config.yaml")));
     }
 
