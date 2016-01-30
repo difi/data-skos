@@ -1,4 +1,4 @@
-package no.difi.los;
+package no.difi.data.skos.los;
 
 import no.difi.data.skos.model.Collection;
 import no.difi.data.skos.model.Concept;

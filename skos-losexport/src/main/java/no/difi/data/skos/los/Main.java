@@ -1,4 +1,4 @@
-package no.difi.los;
+package no.difi.data.skos.los;
 
 import no.difi.data.skos.model.Collection;
 import no.difi.data.skos.model.Concept;
@@ -58,8 +58,6 @@ public class Main {
         options.setCanonical(false);
 
         Yaml yaml = new Yaml(representer, options);
-        // yaml.dump(node, new OutputStreamWriter(System.out));
-        // yaml.dump(node.toConcept(), new OutputStreamWriter(System.out));
 
         for (String uri : map.keySet()) {
             Node n = map.get(uri);
@@ -81,8 +79,8 @@ public class Main {
         }
 
         Config config = new Config();
-        config.setRoot("http://psi.norge.no/los/");
         config.setName("Los");
+        config.setRoot("http://psi.norge.no/los/");
         yaml.dump(config, Files.newBufferedWriter(Paths.get("los/config.yaml")));
     }
 

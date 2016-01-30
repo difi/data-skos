@@ -1,4 +1,4 @@
-package no.difi.los;
+package no.difi.data.skos.los;
 
 public enum Language {
     nb("nob"),
