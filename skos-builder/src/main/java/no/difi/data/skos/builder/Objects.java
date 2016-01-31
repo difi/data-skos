@@ -55,7 +55,11 @@ public class Objects extends HashMap<String, SkosObject> {
 
         // Populate 'topConceptOf'
         if (concept.getHasTopConcept() != null)
-            getCollection(concept.getHasTopConcept()).addTopConceptOf(key);
+            getConceptScheme(concept.getHasTopConcept()).addTopConceptOf(key);
+
+        // Populate 'hasTopConcept'
+        // if (concept.getInScheme() != null)
+        //    getConcept(concept.getInScheme()).setHasTopConcept(key);
     }
 
     public Collection getCollection(String key) {

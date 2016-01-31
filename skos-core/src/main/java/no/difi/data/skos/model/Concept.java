@@ -1,9 +1,7 @@
 package no.difi.data.skos.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Concept extends SkosObject {
 
@@ -15,17 +13,10 @@ public class Concept extends SkosObject {
 
     private List<String> related;
 
-    private Map<String, String> definition;
-
     private String hasTopConcept;
-    private String inScheme;
+    private List<String> inScheme;
 
     public void addBroader(String broader) {
-        if (broader.equals("tema/temastruktur")) {
-            setHasTopConcept("struktur");
-            return;
-        }
-
         if (this.broader == null)
             this.broader = new ArrayList<>();
 
@@ -110,22 +101,6 @@ public class Concept extends SkosObject {
         this.related = related;
     }
 
-    public void addDefinition(String language, String definition) {
-        if (this.definition == null)
-            this.definition = new HashMap<>();
-
-        this.definition.put(language, definition);
-    }
-
-    public Map<String, String> getDefinition() {
-        return definition;
-    }
-
-    @SuppressWarnings("unused")
-    public void setDefinition(Map<String, String> definition) {
-        this.definition = definition;
-    }
-
     public String getHasTopConcept() {
         return hasTopConcept;
     }
@@ -134,11 +109,20 @@ public class Concept extends SkosObject {
         this.hasTopConcept = hasTopConcept;
     }
 
-    public String getInScheme() {
+    public void addInScheme(String inScheme) {
+        if (this.inScheme == null)
+            this.inScheme = new ArrayList<>();
+
+        if (!this.inScheme.contains(inScheme))
+            this.inScheme.add(inScheme);
+    }
+
+    public List<String> getInScheme() {
         return inScheme;
     }
 
-    public void setInScheme(String inScheme) {
+    @SuppressWarnings("unused")
+    public void setInScheme(List<String> inScheme) {
         this.inScheme = inScheme;
     }
 }

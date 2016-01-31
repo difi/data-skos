@@ -54,7 +54,7 @@ public class Main {
                 Files.createDirectories(path.getParent());
 
                 if (uri.equals("struktur")) {
-                    YamlInstance.getInstance().dump(n.toCollection(), Files.newBufferedWriter(path));
+                    YamlInstance.getInstance().dump(n.toConceptScheme(), Files.newBufferedWriter(path));
                 } else {
                     YamlInstance.getInstance().dump(n.toConcept(), Files.newBufferedWriter(path));
                 }
@@ -62,18 +62,20 @@ public class Main {
         }
 
         Files.createDirectories(Paths.get("los/src/ontologi"));
-        addConceptScheme("ord", "Ord", "Ord");
-        addConceptScheme("emneord", "Emneord", "Emneord");
-        addConceptScheme("hjelpeord", "Hjelpeord", "Hjelpeord");
         addConceptScheme("tema", "Tema", "Tema");
         addConceptScheme("hovedtema", "Hovedtema", "Hovedtema");
         addConceptScheme("undertema", "Undertema", "Undertema");
+        addConceptScheme("ord", "Ord", "Ord");
+        addConceptScheme("emneord", "Emneord", "Emneord");
+        addConceptScheme("hjelpeord", "Hjelpeord", "Hjelpeord");
 
         Config config = new Config();
         config.setName("Los");
         config.setRoot("http://psi.norge.no/los/");
         config.addBuild("no.difi.data.skos.builder.build.RdfSingleBuild");
         config.addBuild("no.difi.data.skos.builder.build.RdfMultipleBuild");
+        config.addBuild("no.difi.data.skos.builder.build.FreemarkerBuild");
+        config.addOption("test1", "test2", "test3");
         YamlInstance.getInstance().dump(config, Files.newBufferedWriter(Paths.get("los/config.yaml")));
     }
 

@@ -2,6 +2,7 @@ package no.difi.data.skos.los;
 
 import no.difi.data.skos.model.Collection;
 import no.difi.data.skos.model.Concept;
+import no.difi.data.skos.model.ConceptScheme;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,10 +73,18 @@ public class Node {
         return collection;
     }
 
+    public ConceptScheme toConceptScheme() {
+        ConceptScheme conceptScheme = new ConceptScheme();
+
+        for (Language language : title.keySet())
+            conceptScheme.addLabel(language.name(), title.get(language));
+
+        return conceptScheme;
+    }
+
     public Concept toConcept() {
         Concept concept = new Concept();
 
-        concept.setInScheme(getType().replace("http://psi.norge.no/los/", ""));
         for (Language language : title.keySet())
             concept.addLabel(language.name(), title.get(language));
         if (description != null)
@@ -84,7 +93,10 @@ public class Node {
         for (Association association : associations) {
             switch (association.getType()) {
                 case "http://www.techquila.com/psi/thesaurus/#broader":
-                    concept.addBroader(association.getReference().replace("http://psi.norge.no/los/", ""));
+                    if (association.getReference().endsWith("tema/temastruktur"))
+                        concept.setHasTopConcept("struktur");
+                    else
+                        concept.addBroader(association.getReference().replace("http://psi.norge.no/los/", ""));
                     break;
 
                 case "http://psi.norge.no/los/ontologi/se-ogsaa":
@@ -106,6 +118,22 @@ public class Node {
             }
 
         }
+
+        switch (getType().replace("http://psi.norge.no/los/", "")) {
+            case "ontologi/tema":
+                if (concept.getHasTopConcept() != null)
+                    concept.addInScheme("ontology/hovedtema");
+                else
+                    concept.addInScheme("ontology/undertema");
+                break;
+            case "ontologi/ord":
+                if (concept.getBroader() == null)
+                    concept.addInScheme("ontology/hjelpeord");
+                else
+                    concept.addInScheme("ontology/emneord");
+                break;
+        }
+        concept.addInScheme(getType().replace("http://psi.norge.no/los/", ""));
 
         return concept;
     }

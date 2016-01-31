@@ -26,6 +26,12 @@
             <artifactId>jena-core</artifactId>
         </dependency>
 
+        <!-- Freemarker -->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+        </dependency>
+
         <!-- Apache Commons -->
         <dependency>
             <groupId>commons-cli</groupId>

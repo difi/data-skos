@@ -40,12 +40,13 @@ abstract class AbstractRdfBuild implements Build {
     protected void createForConcept(Config config, Concept concept, Model model, Resource resource) {
         // inScheme
         if (concept.getInScheme() != null)
-            resource.addProperty(SKOS.inScheme, model.createResource(config.getRoot() + concept.getInScheme()));
+            for (String foreign : concept.getInScheme())
+                resource.addProperty(SKOS.inScheme, model.createResource(config.getRoot() + foreign));
 
         // definition
         if (concept.getDefinition() != null)
             for (String language : concept.getDefinition().keySet())
-                resource.addProperty(SKOS.prefLabel, concept.getDefinition().get(language), language);
+                resource.addProperty(SKOS.definition, concept.getDefinition().get(language), language);
 
         // broader
         if (concept.getBroader() != null)
