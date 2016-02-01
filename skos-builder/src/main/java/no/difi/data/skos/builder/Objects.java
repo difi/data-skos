@@ -21,37 +21,29 @@ public class Objects extends HashMap<String, SkosObject> {
     }
 
     private void populateCollection(String key, Collection collection) {
-        // Populate 'hasTopConcept'
-        if (collection.getTopConceptOf() != null)
-            for (String foreign : collection.getTopConceptOf())
-                getConcept(foreign).setHasTopConcept(key);
+
     }
 
     private void populateConcept(String key, Concept concept) {
         // Populate 'narrower'
-        if (concept.getBroader() != null)
-            for (String foreign : concept.getBroader())
-                getConcept(foreign).addNarrower(key);
+        for (String foreign : concept.getRelation().getBroader())
+            getConcept(foreign).getRelation().addNarrower(key);
 
         // Populate 'broader'
-        if (concept.getNarrower() != null)
-            for (String foreign : concept.getNarrower())
-                getConcept(foreign).addBroader(key);
+        for (String foreign : concept.getRelation().getNarrower())
+            getConcept(foreign).getRelation().addBroader(key);
 
         // Populate 'narrowerTransitive'
-        if (concept.getBroaderTransitive() != null)
-            for (String foreign : concept.getBroaderTransitive())
-                getConcept(foreign).addNarrowerTransitive(key);
+        for (String foreign : concept.getRelation().getBroaderTransitive())
+            getConcept(foreign).getRelation().addNarrowerTransitive(key);
 
         // Populate 'broaderTransitive'
-        if (concept.getNarrowerTransitive() != null)
-            for (String foreign : concept.getNarrowerTransitive())
-                getConcept(foreign).addBroaderTransitive(key);
+        for (String foreign : concept.getRelation().getNarrowerTransitive())
+            getConcept(foreign).getRelation().addBroaderTransitive(key);
 
         // Populate 'related'
-        if (concept.getRelated() != null)
-            for (String foreign : concept.getRelated())
-                getConcept(foreign).addRelated(key);
+        for (String foreign : concept.getRelation().getRelated())
+            getConcept(foreign).getRelation().addRelated(key);
 
         // Populate 'topConceptOf'
         if (concept.getHasTopConcept() != null)

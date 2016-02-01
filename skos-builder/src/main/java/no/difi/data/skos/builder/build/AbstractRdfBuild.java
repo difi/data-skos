@@ -11,67 +11,29 @@ abstract class AbstractRdfBuild implements Build {
     protected void createForObject(Config config, String key, SkosObject object, Model model) {
         if (object instanceof Concept) {
             Resource resource = model.createResource(config.getRoot() + key, SKOS.Concept);
-            createForGeneric(object, resource);
             createForConcept(config, (Concept) object, model, resource);
         } else if (object instanceof Collection) {
             Resource resource = model.createResource(config.getRoot() + key, SKOS.Collection);
-            createForGeneric(object, resource);
             createForCollection(config, (Collection) object, model, resource);
         } else if (object instanceof ConceptScheme) {
             Resource resource = model.createResource(config.getRoot() + key, SKOS.ConceptScheme);
-            createForGeneric(object, resource);
             createForConceptScheme(config, (ConceptScheme) object, model, resource);
         }
     }
 
-    protected void createForGeneric(SkosObject object, Resource resource) {
-        // prefLabel
-        for (String language : object.getLabel().keySet())
-            resource.addProperty(SKOS.prefLabel, object.getLabel().get(language), language);
-    }
-
     protected void createForCollection(Config config, Collection collection, Model model, Resource resource) {
-        // topConceptOf
-        if (collection.getTopConceptOf() != null)
-            for (String foreign : collection.getTopConceptOf())
-                resource.addProperty(SKOS.topConceptOf, model.createResource(config.getRoot() + foreign));
+        createForLabel(collection.getLabel(), resource);
     }
 
     protected void createForConcept(Config config, Concept concept, Model model, Resource resource) {
+        createForLabel(concept.getLabel(), resource);
+        createForDocumentation(concept.getDocumentation(), resource);
+        createForRelation(config, concept.getRelation(), model, resource);
+
         // inScheme
         if (concept.getInScheme() != null)
             for (String foreign : concept.getInScheme())
                 resource.addProperty(SKOS.inScheme, model.createResource(config.getRoot() + foreign));
-
-        // definition
-        if (concept.getDefinition() != null)
-            for (String language : concept.getDefinition().keySet())
-                resource.addProperty(SKOS.definition, concept.getDefinition().get(language), language);
-
-        // broader
-        if (concept.getBroader() != null)
-            for (String foreign : concept.getBroader())
-                resource.addProperty(SKOS.broader, model.createResource(config.getRoot() + foreign));
-
-        // narrower
-        if (concept.getNarrower() != null)
-            for (String foreign : concept.getNarrower())
-                resource.addProperty(SKOS.narrower, model.createResource(config.getRoot() + foreign));
-
-        // broaderTransitive
-        if (concept.getBroaderTransitive() != null)
-            for (String foreign : concept.getBroaderTransitive())
-                resource.addProperty(SKOS.broaderTransitive, model.createResource(config.getRoot() + foreign));
-
-        // broaderTransitive
-        if (concept.getNarrowerTransitive() != null)
-            for (String foreign : concept.getNarrowerTransitive())
-                resource.addProperty(SKOS.narrowerTransitive, model.createResource(config.getRoot() + foreign));
-
-        // related
-        if (concept.getRelated() != null)
-            for (String foreign : concept.getRelated())
-                resource.addProperty(SKOS.related, model.createResource(config.getRoot() + foreign));
 
         // hasTopConcept
         if (concept.getHasTopConcept() != null)
@@ -81,4 +43,75 @@ abstract class AbstractRdfBuild implements Build {
     protected void createForConceptScheme(Config config, ConceptScheme conceptScheme, Model model, Resource resource) {
 
     }
+
+    protected void createForLabel(Label label, Resource resource) {
+        // prefLabel
+        for (SkosValue value : label.getPreferred())
+            resource.addProperty(SKOS.prefLabel, value.getValue(), value.getLanguage());
+
+        // altLabel
+        for (SkosValue value : label.getAlternative())
+            resource.addProperty(SKOS.altLabel, value.getValue(), value.getLanguage());
+
+        // hiddenLabel
+        for (SkosValue value : label.getHidden())
+            resource.addProperty(SKOS.hiddenLabel, value.getValue(), value.getLanguage());
+    }
+
+    protected void createForDocumentation(Documentation documentation, Resource resource) {
+        // note
+        for (SkosValue value : documentation.getNote())
+            resource.addProperty(SKOS.note, value.getValue(), value.getLanguage());
+
+        // changeNote
+        for (SkosValue value : documentation.getChangeNote())
+            resource.addProperty(SKOS.changeNote, value.getValue(), value.getLanguage());
+
+        // definition
+        for (SkosValue value : documentation.getDefinition())
+            resource.addProperty(SKOS.definition, value.getValue(), value.getLanguage());
+
+        // editorialNote
+        for (SkosValue value : documentation.getEditorialNote())
+            resource.addProperty(SKOS.editorialNote, value.getValue(), value.getLanguage());
+
+        // example
+        for (SkosValue value : documentation.getExample())
+            resource.addProperty(SKOS.example, value.getValue(), value.getLanguage());
+
+        // historyNote
+        for (SkosValue value : documentation.getHistoryNote())
+            resource.addProperty(SKOS.historyNote, value.getValue(), value.getLanguage());
+
+        // scopeNote
+        for (SkosValue value : documentation.getScopeNote())
+            resource.addProperty(SKOS.scopeNote, value.getValue(), value.getLanguage());
+    }
+
+    protected void createForRelation(Config config, Relation relation, Model model, Resource resource) {
+        // semanticRelation
+        for (String foreign : relation.getSemanticRelation())
+            resource.addProperty(SKOS.semanticRelation, model.createResource(config.getRoot() + foreign));
+
+        // broader
+        for (String foreign : relation.getBroader())
+            resource.addProperty(SKOS.broader, model.createResource(config.getRoot() + foreign));
+
+        // narrower
+        for (String foreign : relation.getNarrower())
+            resource.addProperty(SKOS.narrower, model.createResource(config.getRoot() + foreign));
+
+        // broaderTransitive
+        for (String foreign : relation.getBroaderTransitive())
+            resource.addProperty(SKOS.broaderTransitive, model.createResource(config.getRoot() + foreign));
+
+        // narrowerTransitive
+        for (String foreign : relation.getNarrowerTransitive())
+            resource.addProperty(SKOS.narrowerTransitive, model.createResource(config.getRoot() + foreign));
+
+        // related
+        for (String foreign : relation.getRelated())
+            resource.addProperty(SKOS.related, model.createResource(config.getRoot() + foreign));
+    }
+
 }

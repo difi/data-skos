@@ -1,9 +1,6 @@
 package no.difi.data.skos.yaml;
 
-import no.difi.data.skos.model.Collection;
-import no.difi.data.skos.model.Concept;
-import no.difi.data.skos.model.ConceptScheme;
-import no.difi.data.skos.model.Config;
+import no.difi.data.skos.model.*;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;

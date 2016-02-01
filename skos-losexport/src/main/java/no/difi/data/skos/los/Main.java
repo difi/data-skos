@@ -2,6 +2,7 @@ package no.difi.data.skos.los;
 
 import no.difi.data.skos.model.ConceptScheme;
 import no.difi.data.skos.model.Config;
+import no.difi.data.skos.model.SkosValue;
 import no.difi.data.skos.yaml.YamlInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,14 +76,13 @@ public class Main {
         config.addBuild("no.difi.data.skos.builder.build.RdfSingleBuild");
         config.addBuild("no.difi.data.skos.builder.build.RdfMultipleBuild");
         config.addBuild("no.difi.data.skos.builder.build.FreemarkerBuild");
-        config.addOption("test1", "test2", "test3");
         YamlInstance.getInstance().dump(config, Files.newBufferedWriter(Paths.get("los/config.yaml")));
     }
 
     public static void addConceptScheme(String file, String labelNb, String labelNn) throws IOException {
         ConceptScheme ordConceptScheme = new ConceptScheme();
-        ordConceptScheme.addLabel("nb", labelNb);
-        ordConceptScheme.addLabel("nn", labelNn);
+        ordConceptScheme.getLabel().addPreferred(new SkosValue(labelNb, "nb"));
+        ordConceptScheme.getLabel().addPreferred(new SkosValue(labelNn, "nn"));
         YamlInstance.getInstance().dump(ordConceptScheme, Files.newBufferedWriter(Paths.get("los/src/ontologi/" + file + ".yaml")));
     }
 

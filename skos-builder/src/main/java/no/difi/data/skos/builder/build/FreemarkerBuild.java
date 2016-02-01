@@ -15,7 +15,6 @@ import no.difi.data.skos.model.SkosObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashMap;
@@ -28,6 +27,8 @@ public class FreemarkerBuild implements Build {
     @Override
     public void build(Config config, Workspace workspace, Objects objects) throws IOException {
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
+
+        Object o = objects.get("ord/adopsjon");
 
         ClassTemplateLoader classTemplateLoader = new ClassTemplateLoader(getClass(), "/freemarker");
         cfg.setTemplateLoader(new MultiTemplateLoader(new TemplateLoader[]{classTemplateLoader}));
