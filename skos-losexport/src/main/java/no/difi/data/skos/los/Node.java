@@ -97,19 +97,17 @@ public class Node {
             switch (association.getType()) {
                 case "http://www.techquila.com/psi/thesaurus/#broader":
                     if (association.getReference().endsWith("tema/temastruktur"))
-                        concept.setHasTopConcept("struktur");
+                        // concept.setHasTopConcept("struktur");
+                        concept.getScheme().addTopOf("struktur");
                     else
-                        // concept.addBroader(association.getReference().replace("http://psi.norge.no/los/", ""));
                         concept.getRelation().addBroader(association.getReference().replace("http://psi.norge.no/los/", ""));
                     break;
 
                 case "http://psi.norge.no/los/ontologi/se-ogsaa":
-                    // concept.addRelated(association.getReference().replace("http://psi.norge.no/los/", ""));
                     concept.getRelation().addRelated(association.getReference().replace("http://psi.norge.no/los/", ""));
                     break;
 
                 case "http://psi.norge.no/los/ontologi/se":
-                    // concept.addBroaderTransitive(association.getReference().replace("http://psi.norge.no/los/", ""));
                     concept.getRelation().addBroaderTransitive(association.getReference().replace("http://psi.norge.no/los/", ""));
                     break;
 
@@ -125,19 +123,19 @@ public class Node {
 
         }
 
-        concept.addInScheme(getType().replace("http://psi.norge.no/los/", ""));
-        switch (concept.getInScheme().get(0)) {
+        concept.getScheme().addIn(getType().replace("http://psi.norge.no/los/", ""));
+        switch (concept.getScheme().getIn().get(0)) {
             case "ontologi/tema":
-                if (concept.getHasTopConcept() != null)
-                    concept.addInScheme("ontology/hovedtema");
+                if (concept.getScheme().getHasTop().size() > 0)
+                    concept.getScheme().addIn("ontologi/hovedtema");
                 else
-                    concept.addInScheme("ontology/undertema");
+                    concept.getScheme().addIn("ontologi/undertema");
                 break;
             case "ontologi/ord":
                 if (concept.getRelation().getBroader().size() == 0)
-                    concept.addInScheme("ontology/hjelpeord");
+                    concept.getScheme().addIn("ontologi/hjelpeord");
                 else
-                    concept.addInScheme("ontology/emneord");
+                    concept.getScheme().addIn("ontologi/emneord");
                 break;
         }
 

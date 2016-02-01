@@ -1,65 +1,47 @@
 <#if !object.relation.isEmpty()>
     <h2>Relations</h2>
 
-    <#if object.relation.broader?has_content || object.relation.narrower?has_content>
-    <div class="row">
-        <div class="col-sm-6">
-            <h3>Broader</h3>
+    <dl class="dl-horizontal">
+        <#if object.relation.broader?has_content>
+            <dt>Broader</dt>
+            <#list object.relation.broader?sort as foreign>
+                <dd><a href="${config.basePath}${foreign}.html">${config.baseUri}${foreign}</a></dd>
+            </#list>
+        </#if>
 
-            <#if object.relation.broader?has_content>
-                <ul class="list-unstyled">
-                    <#list object.relation.broader?sort as foreign>
-                        <li><a href="${config.root}${foreign}.html">${config.root}${foreign}</a></li>
-                    </#list>
-                </ul>
-            <#else>
-                <em>None</em>
-            </#if>
-        </div>
-        <div class="col-sm-6">
-            <h3>Narrower</h3>
+        <#if object.relation.narrower?has_content>
+            <dt>Transitive</dt>
+            <#list object.relation.narrower?sort as foreign>
+                <dd><a href="${config.basePath}${foreign}.html">${config.baseUri}${foreign}</a></dd>
+            </#list>
+        </#if>
 
-            <#if object.relation.narrower?has_content>
-                <ul class="list-unstyled">
-                    <#list object.relation.narrower?sort as foreign>
-                        <li><a href="${config.root}${foreign}.html">${config.root}${foreign}</a></li>
-                    </#list>
-                </ul>
-            <#else>
-                <em>None</em>
-            </#if>
-        </div>
-    </div>
-    </#if>
+        <#if object.relation.broaderTransitive?has_content>
+            <dt>Broader Transitive</dt>
+            <#list object.relation.broaderTransitive?sort as foreign>
+                <dd><a href="${config.basePath}${foreign}.html">${config.baseUri}${foreign}</a></dd>
+            </#list>
+        </#if>
 
-    <#if object.relation.broaderTransitive?has_content || object.relation.narrowerTransitive?has_content>
-    <div class="row">
-        <div class="col-sm-6">
-            <h3>Broader Transitive</h3>
+        <#if object.relation.narrowerTransitive?has_content>
+            <dt>Narrower Transitive</dt>
+            <#list object.relation.narrowerTransitive?sort as foreign>
+                <dd><a href="${config.basePath}${foreign}.html">${config.baseUri}${foreign}</a></dd>
+            </#list>
+        </#if>
 
-            <#if object.relation.broaderTransitive?has_content>
-                <ul class="list-unstyled">
-                    <#list object.relation.broaderTransitive?sort as foreign>
-                        <li><a href="${config.root}${foreign}.html">${config.root}${foreign}</a></li>
-                    </#list>
-                </ul>
-            <#else>
-                <em>None</em>
-            </#if>
-        </div>
-        <div class="col-sm-6">
-            <h3>Narrower Transitive</h3>
+        <#if object.relation.related?has_content>
+            <dt>Related</dt>
+            <#list object.relation.related?sort as foreign>
+                <dd><a href="${config.basePath}${foreign}.html">${config.baseUri}${foreign}</a></dd>
+            </#list>
+        </#if>
 
-            <#if object.relation.narrowerTransitive?has_content>
-                <ul class="list-unstyled">
-                    <#list object.relation.narrowerTransitive?sort as foreign>
-                        <li><a href="${config.root}${foreign}.html">${config.root}${foreign}</a></li>
-                    </#list>
-                </ul>
-            <#else>
-                <em>None</em>
-            </#if>
-        </div>
-    </div>
-    </#if>
+        <#if object.relation.semanticRelation?has_content>
+            <dt>Semantic Relation</dt>
+            <#list object.relation.semanticRelation?sort as foreign>
+                <dd><a href="${config.basePath}${foreign}.html">${config.baseUri}${foreign}</a></dd>
+            </#list>
+        </#if>
+    </dl>
 </#if>

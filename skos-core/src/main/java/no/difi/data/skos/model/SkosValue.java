@@ -63,8 +63,16 @@ public class SkosValue implements Comparable<SkosValue> {
 
     @Override
     public int compareTo(SkosValue o) {
-        // TODO Sort by language
-
-        return value.compareTo(o.value);
+        if (language == null || o.language == null) {
+            if (o.language != null)
+                return -1;
+            else if (language != null)
+                return 1;
+            else
+                return value.compareTo(o.value);
+        } else {
+            int result = language.compareTo(o.language);
+            return result != 0 ? result : value.compareTo(o.value);
+        }
     }
 }

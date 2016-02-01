@@ -7,11 +7,29 @@ import java.util.Map;
 
 public class Config {
 
+    private String basePath;
+    private String baseUri;
+
     private List<String> build;
-    private String root;
     private String name;
 
     private Map<String, Options> options;
+
+    public String getBasePath() {
+        return basePath;
+    }
+
+    public void setBasePath(String basePath) {
+        this.basePath = basePath;
+    }
+
+    public String getBaseUri() {
+        return baseUri;
+    }
+
+    public void setBaseUri(String baseUri) {
+        this.baseUri = baseUri;
+    }
 
     public void addBuild(String build) {
         if (this.build == null)
@@ -28,14 +46,6 @@ public class Config {
     @SuppressWarnings("unused")
     public void setBuild(List<String> build) {
         this.build = build;
-    }
-
-    public String getRoot() {
-        return root;
-    }
-
-    public void setRoot(String root) {
-        this.root = root;
     }
 
     public String getName() {

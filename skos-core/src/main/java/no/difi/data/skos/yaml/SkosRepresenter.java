@@ -45,6 +45,7 @@ public class SkosRepresenter extends Representer {
 
             try {
                 newProperties.add(new MethodProperty(new PropertyDescriptor("label", SkosObject.class, "getLabel", "setLabel")));
+                newProperties.add(new MethodProperty(new PropertyDescriptor("scheme", Concept.class, "getScheme", "setScheme")));
                 newProperties.add(new MethodProperty(new PropertyDescriptor("documentation", SkosObject.class, "getDocumentation", "setDocumentation")));
                 newProperties.add(new MethodProperty(new PropertyDescriptor("relation", Concept.class, "getRelation", "setRelation")));
 

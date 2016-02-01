@@ -1,8 +1,15 @@
 <#include "header.ftl">
 
-<h1>${config.root}${key}<br /><small>skos:ConceptScheme</small></h1>
+<h1>${config.baseUri}${key}<br /><small>skos:ConceptScheme</small></h1>
 
-<#include "part/label.ftl">
-<#include "part/documentation.ftl">
+<div class="row">
+    <div class="col-md-8">
+        <#include "part/scheme.ftl">
+        <#include "part/documentation.ftl">
+    </div>
+    <div class="col-md-4">
+        <#include "part/label.ftl">
+    </div>
+</div>
 
 <#include "footer.ftl">

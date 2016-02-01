@@ -17,6 +17,8 @@ public class Objects extends HashMap<String, SkosObject> {
                 populateCollection(key, (Collection) object);
             else if (object instanceof Concept)
                 populateConcept(key, (Concept) object);
+            else if (object instanceof ConceptScheme)
+                populateConceptScheme(key, (ConceptScheme) object);
         }
     }
 
@@ -45,13 +47,15 @@ public class Objects extends HashMap<String, SkosObject> {
         for (String foreign : concept.getRelation().getRelated())
             getConcept(foreign).getRelation().addRelated(key);
 
-        // Populate 'topConceptOf'
-        if (concept.getHasTopConcept() != null)
-            getConceptScheme(concept.getHasTopConcept()).addTopConceptOf(key);
-
         // Populate 'hasTopConcept'
-        // if (concept.getInScheme() != null)
-        //    getConcept(concept.getInScheme()).setHasTopConcept(key);
+        for (String foreign : concept.getScheme().getTopOf())
+                getConceptScheme(foreign).getScheme().addHasTop(key);
+    }
+
+    private void populateConceptScheme(String key, ConceptScheme conceptScheme) {
+        // Populate 'topConceptOf'
+        for (String foreign : conceptScheme.getScheme().getHasTop())
+            getConcept(foreign).getScheme().addTopOf(key);
     }
 
     public Collection getCollection(String key) {

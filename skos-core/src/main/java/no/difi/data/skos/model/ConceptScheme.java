@@ -1,27 +1,14 @@
 package no.difi.data.skos.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ConceptScheme extends SkosObject {
 
-    private List<String> topConceptOf;
+    private Scheme scheme = new Scheme();
 
-    public void addTopConceptOf(String topConceptOf) {
-        if (this.topConceptOf == null)
-            this.topConceptOf = new ArrayList<>();
-
-        if (!this.topConceptOf.contains(topConceptOf))
-            this.topConceptOf.add(topConceptOf);
+    public Scheme getScheme() {
+        return scheme;
     }
 
-    public List<String> getTopConceptOf() {
-        return topConceptOf;
+    public void setScheme(Scheme scheme) {
+        this.scheme = scheme;
     }
-
-    @SuppressWarnings("unused")
-    public void setTopConceptOf(List<String> topConceptOf) {
-        this.topConceptOf = topConceptOf;
-    }
-
 }

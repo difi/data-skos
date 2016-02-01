@@ -24,7 +24,12 @@ public class Workspace {
     }
 
     public Config getConfig() throws IOException {
-        return YamlInstance.getInstance().loadAs(Files.newBufferedReader(folder.resolve("config.yaml")), Config.class);
+        Config config = YamlInstance.getInstance().loadAs(Files.newBufferedReader(folder.resolve("config.yaml")), Config.class);
+
+        if (config.getBasePath() == null)
+            config.setBasePath(config.getBaseUri());
+
+        return config;
     }
 
     public Objects getObjects() throws IOException {

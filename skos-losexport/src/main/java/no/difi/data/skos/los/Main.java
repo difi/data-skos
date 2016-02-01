@@ -71,11 +71,13 @@ public class Main {
         addConceptScheme("hjelpeord", "Hjelpeord", "Hjelpeord");
 
         Config config = new Config();
+        config.setBaseUri("http://psi.norge.no/los/");
         config.setName("Los");
-        config.setRoot("http://psi.norge.no/los/");
         config.addBuild("no.difi.data.skos.builder.build.RdfSingleBuild");
         config.addBuild("no.difi.data.skos.builder.build.RdfMultipleBuild");
         config.addBuild("no.difi.data.skos.builder.build.FreemarkerBuild");
+        config.addOption("github", "repository", "https://github.com/difi/los");
+        config.addOption("github", "issues", "https://github.com/difi/los/issues");
         YamlInstance.getInstance().dump(config, Files.newBufferedWriter(Paths.get("los/config.yaml")));
     }
 
