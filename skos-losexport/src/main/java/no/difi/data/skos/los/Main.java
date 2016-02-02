@@ -65,14 +65,11 @@ public class Main {
 
         Files.createDirectories(Paths.get("los/src/ontologi"));
         addConceptScheme("tema", "Tema", "Tema");
-        addConceptScheme("hovedtema", "Hovedtema", "Hovedtema");
-        addConceptScheme("undertema", "Undertema", "Undertema");
         addConceptScheme("ord", "Ord", "Ord");
         addConceptScheme("emneord", "Emneord", "Emneord");
         addConceptScheme("hjelpeord", "Hjelpeord", "Hjelpeord");
 
         Config config = new Config();
-        config.setBasePath("file:///C:/Users/ebe/IdeaProjects/data-skos/los/target/");
         config.setBaseUri("http://psi.norge.no/los/");
         config.setName("Los");
         config.addBuild("no.difi.data.skos.builder.build.RdfSingleBuild");

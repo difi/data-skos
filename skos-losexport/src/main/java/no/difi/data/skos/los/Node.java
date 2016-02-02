@@ -124,12 +124,6 @@ public class Node {
 
         concept.getScheme().addIn(getType().replace("http://psi.norge.no/los/", ""));
         switch (concept.getScheme().getIn().get(0)) {
-            case "ontologi/tema":
-                if (concept.getScheme().getTopOf().size() > 0)
-                    concept.getScheme().addIn("ontologi/hovedtema");
-                else
-                    concept.getScheme().addIn("ontologi/undertema");
-                break;
             case "ontologi/ord":
                 if (concept.getRelation().getBroader().size() == 0)
                     concept.getScheme().addIn("ontologi/hjelpeord");
