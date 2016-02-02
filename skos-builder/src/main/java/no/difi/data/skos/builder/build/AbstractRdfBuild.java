@@ -24,6 +24,10 @@ abstract class AbstractRdfBuild implements Build {
     protected void createForCollection(Config config, Collection collection, Model model, Resource resource) {
         createForLabel(collection.getLabel(), resource);
         createForDocumentation(collection.getDocumentation(), resource);
+
+        // member
+        for (String foreign : collection.getMember())
+            resource.addProperty(SKOS.member, model.createResource(config.getBaseUri() + foreign));
     }
 
     protected void createForConcept(Config config, Concept concept, Model model, Resource resource) {
