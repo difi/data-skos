@@ -23,6 +23,7 @@ abstract class AbstractRdfBuild implements Build {
 
     protected void createForCollection(Config config, Collection collection, Model model, Resource resource) {
         createForLabel(collection.getLabel(), resource);
+        createForNotation(collection, resource);
         createForDocumentation(collection.getDocumentation(), resource);
 
         // member
@@ -32,6 +33,7 @@ abstract class AbstractRdfBuild implements Build {
 
     protected void createForConcept(Config config, Concept concept, Model model, Resource resource) {
         createForLabel(concept.getLabel(), resource);
+        createForNotation(concept, resource);
         createForDocumentation(concept.getDocumentation(), resource);
         createForScheme(config, concept.getScheme(), model, resource);
         createForRelation(config, concept.getRelation(), model, resource);
@@ -40,6 +42,7 @@ abstract class AbstractRdfBuild implements Build {
 
     protected void createForConceptScheme(Config config, ConceptScheme conceptScheme, Model model, Resource resource) {
         createForLabel(conceptScheme.getLabel(), resource);
+        createForNotation(conceptScheme, resource);
         createForDocumentation(conceptScheme.getDocumentation(), resource);
         createForScheme(config, conceptScheme.getScheme(), model, resource);
     }
@@ -56,6 +59,12 @@ abstract class AbstractRdfBuild implements Build {
         // hiddenLabel
         for (SkosValue value : label.getHidden())
             resource.addProperty(SKOS.hiddenLabel, value.getValue(), value.getLanguage());
+    }
+
+    protected void createForNotation(SkosObject object, Resource resource) {
+        // notation
+        for (String value : object.getNotation())
+            resource.addProperty(SKOS.notation, value);
     }
 
     protected void createForDocumentation(Documentation documentation, Resource resource) {

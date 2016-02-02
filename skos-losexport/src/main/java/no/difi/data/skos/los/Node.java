@@ -1,6 +1,5 @@
 package no.difi.data.skos.los;
 
-import no.difi.data.skos.model.Collection;
 import no.difi.data.skos.model.Concept;
 import no.difi.data.skos.model.ConceptScheme;
 import no.difi.data.skos.model.SkosValue;
@@ -63,15 +62,6 @@ public class Node {
                 ", description='" + description + '\'' +
                 ", associations=" + associations +
                 '}';
-    }
-
-    public Collection toCollection() {
-        Collection collection = new Collection();
-
-        for (Language language : title.keySet())
-            collection.getLabel().addPreferred(new SkosValue(title.get(language), language.name()));
-
-        return collection;
     }
 
     public ConceptScheme toConceptScheme() {

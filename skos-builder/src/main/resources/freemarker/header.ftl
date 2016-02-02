@@ -24,6 +24,12 @@
         <div class="navbar-header">
             <a class="navbar-brand" href="#">${config.name}</a>
         </div>
+        <#if config.options['github']??>
+        <ul class="nav navbar-nav navbar-right">
+            <#if config.options['github']['repository']??><li><a href="${config.options['github']['repository']}">Github</a></li></#if>
+            <#if config.options['github']['issues']??><li><a href="${config.options['github']['issues']}">Issues</a></li></#if>
+        </ul>
+        </#if>
     </div>
 </nav>
 

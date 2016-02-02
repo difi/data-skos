@@ -39,12 +39,14 @@ public class Workspace {
         Files.walkFileTree(srcFolder, new DefaultFileVisitor() {
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                String key = file.toString();
-                key = key.substring(srcFolder.toString().length() + 1);
-                key = key.replaceAll("\\\\", "/");
-                key = key.replace(".yaml", "");
+                if (file.toString().endsWith(".yaml")) {
+                    String key = file.toString();
+                    key = key.substring(srcFolder.toString().length() + 1);
+                    key = key.replaceAll("\\\\", "/");
+                    key = key.replace(".yaml", "");
 
-                objects.put(key, (SkosObject) YamlInstance.getInstance().load(Files.newBufferedReader(file, StandardCharsets.UTF_8)));
+                    objects.put(key, (SkosObject) YamlInstance.getInstance().load(Files.newBufferedReader(file, StandardCharsets.UTF_8)));
+                }
                 return FileVisitResult.CONTINUE;
             }
         });
