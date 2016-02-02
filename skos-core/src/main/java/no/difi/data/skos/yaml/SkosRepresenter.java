@@ -48,6 +48,7 @@ public class SkosRepresenter extends Representer {
                 newProperties.add(new MethodProperty(new PropertyDescriptor("scheme", Concept.class, "getScheme", "setScheme")));
                 newProperties.add(new MethodProperty(new PropertyDescriptor("documentation", SkosObject.class, "getDocumentation", "setDocumentation")));
                 newProperties.add(new MethodProperty(new PropertyDescriptor("relation", Concept.class, "getRelation", "setRelation")));
+                newProperties.add(new MethodProperty(new PropertyDescriptor("mapping", Concept.class, "getMapping", "setMapping")));
 
                 for (Property property : properties)
                     if (!property.getName().equals("label") && !property.getName().equals("documentation") && !property.getName().equals("relation"))

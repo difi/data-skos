@@ -31,6 +31,7 @@ abstract class AbstractRdfBuild implements Build {
         createForDocumentation(concept.getDocumentation(), resource);
         createForScheme(config, concept.getScheme(), model, resource);
         createForRelation(config, concept.getRelation(), model, resource);
+        createForMapping(config, concept.getMapping(), model, resource);
     }
 
     protected void createForConceptScheme(Config config, ConceptScheme conceptScheme, Model model, Resource resource) {
@@ -123,4 +124,29 @@ abstract class AbstractRdfBuild implements Build {
             resource.addProperty(SKOS.related, model.createResource(config.getBaseUri() + foreign));
     }
 
+    protected void createForMapping(Config config, Mapping mapping, Model model, Resource resource) {
+        // mappingRelation
+        for (String foreign : mapping.getMappingRelation())
+            resource.addProperty(SKOS.mappingRelation, model.createResource(config.getBaseUri() + foreign));
+
+        // closeMatch
+        for (String foreign : mapping.getCloseMatch())
+            resource.addProperty(SKOS.closeMatch, model.createResource(config.getBaseUri() + foreign));
+
+        // exactMatch
+        for (String foreign : mapping.getExactMatch())
+            resource.addProperty(SKOS.exactMatch, model.createResource(config.getBaseUri() + foreign));
+
+        // broadMatch
+        for (String foreign : mapping.getBroadMatch())
+            resource.addProperty(SKOS.broadMatch, model.createResource(config.getBaseUri() + foreign));
+
+        // narrowMatch
+        for (String foreign : mapping.getNarrowMatch())
+            resource.addProperty(SKOS.narrowMatch, model.createResource(config.getBaseUri() + foreign));
+
+        // relatedMatch
+        for (String foreign : mapping.getRelatedMatch())
+            resource.addProperty(SKOS.relatedMatch, model.createResource(config.getBaseUri() + foreign));
+    }
 }

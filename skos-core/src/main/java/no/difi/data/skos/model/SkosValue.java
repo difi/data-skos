@@ -11,6 +11,7 @@ public class SkosValue implements Comparable<SkosValue> {
     public SkosValue() {
     }
 
+    @SuppressWarnings("unused")
     public SkosValue(String value) {
         this();
         if (value.substring(value.lastIndexOf(" ") + 1).startsWith("@")) {
@@ -31,6 +32,7 @@ public class SkosValue implements Comparable<SkosValue> {
         return language;
     }
 
+    @SuppressWarnings("unused")
     public void setLanguage(String language) {
         this.language = language;
     }
@@ -39,6 +41,7 @@ public class SkosValue implements Comparable<SkosValue> {
         return value;
     }
 
+    @SuppressWarnings("unused")
     public void setValue(String value) {
         this.value = value;
     }

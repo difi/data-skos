@@ -70,6 +70,7 @@ public class Config {
         return options;
     }
 
+    @SuppressWarnings("unused")
     public void setOptions(Map<String, Options> options) {
         this.options = options;
     }

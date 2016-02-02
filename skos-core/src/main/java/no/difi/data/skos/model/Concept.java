@@ -4,6 +4,7 @@ public class Concept extends SkosObject {
 
     private Relation relation = new Relation();
     private Scheme scheme = new Scheme();
+    private Mapping mapping = new Mapping();
 
     public Relation getRelation() {
         return relation;
@@ -21,5 +22,14 @@ public class Concept extends SkosObject {
     @SuppressWarnings("unused")
     public void setScheme(Scheme scheme) {
         this.scheme = scheme;
+    }
+
+    public Mapping getMapping() {
+        return mapping;
+    }
+
+    @SuppressWarnings("unused")
+    public void setMapping(Mapping mapping) {
+        this.mapping = mapping;
     }
 }

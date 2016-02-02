@@ -97,7 +97,6 @@ public class Node {
             switch (association.getType()) {
                 case "http://www.techquila.com/psi/thesaurus/#broader":
                     if (association.getReference().endsWith("tema/temastruktur"))
-                        // concept.setHasTopConcept("struktur");
                         concept.getScheme().addTopOf("struktur");
                     else
                         concept.getRelation().addBroader(association.getReference().replace("http://psi.norge.no/los/", ""));
@@ -126,7 +125,7 @@ public class Node {
         concept.getScheme().addIn(getType().replace("http://psi.norge.no/los/", ""));
         switch (concept.getScheme().getIn().get(0)) {
             case "ontologi/tema":
-                if (concept.getScheme().getHasTop().size() > 0)
+                if (concept.getScheme().getTopOf().size() > 0)
                     concept.getScheme().addIn("ontologi/hovedtema");
                 else
                     concept.getScheme().addIn("ontologi/undertema");

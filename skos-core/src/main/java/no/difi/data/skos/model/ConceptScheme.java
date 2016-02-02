@@ -8,6 +8,7 @@ public class ConceptScheme extends SkosObject {
         return scheme;
     }
 
+    @SuppressWarnings("unused")
     public void setScheme(Scheme scheme) {
         this.scheme = scheme;
     }

@@ -26,20 +26,13 @@ public class FreemarkerBuild implements Build {
 
     @Override
     public void build(Config config, Workspace workspace, Objects objects) throws IOException {
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
-
-        Object o = objects.get("ord/adopsjon");
+        Configuration configuration = new Configuration(Configuration.VERSION_2_3_23);
+        configuration.setDefaultEncoding("UTF-8");
+        // During web page *development* TemplateExceptionHandler.HTML_DEBUG_HANDLER is better.
+        configuration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 
         ClassTemplateLoader classTemplateLoader = new ClassTemplateLoader(getClass(), "/freemarker");
-        cfg.setTemplateLoader(new MultiTemplateLoader(new TemplateLoader[]{classTemplateLoader}));
-
-        // Set the preferred charset template files are stored in. UTF-8 is
-        // a good choice in most applications:
-        cfg.setDefaultEncoding("UTF-8");
-
-        // Sets how errors will appear.
-        // During web page *development* TemplateExceptionHandler.HTML_DEBUG_HANDLER is better.
-        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+        configuration.setTemplateLoader(new MultiTemplateLoader(new TemplateLoader[]{classTemplateLoader}));
 
         for (String key : objects.keySet()) {
             try {
@@ -51,7 +44,7 @@ public class FreemarkerBuild implements Build {
                 model.put("object", object);
                 model.put("objects", objects);
 
-                Template temp = cfg.getTemplate(object.getClass().getSimpleName() + ".ftl");
+                Template temp = configuration.getTemplate(object.getClass().getSimpleName() + ".ftl");
                 temp.process(model, Files.newBufferedWriter(workspace.getTargetPath(key + ".html")));
             } catch (TemplateException e) {
                 logger.warn(e.getMessage(), e);
