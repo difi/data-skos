@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +46,7 @@ public class FreemarkerBuild implements Build {
                 model.put("objects", objects);
 
                 Template temp = configuration.getTemplate(object.getClass().getSimpleName() + ".ftl");
-                temp.process(model, Files.newBufferedWriter(workspace.getTargetPath(key + ".html")));
+                temp.process(model, Files.newBufferedWriter(workspace.getTargetPath(key + ".html"), StandardCharsets.UTF_8));
             } catch (TemplateException e) {
                 logger.warn(e.getMessage(), e);
             }

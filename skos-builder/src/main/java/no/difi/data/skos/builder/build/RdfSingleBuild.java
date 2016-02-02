@@ -7,6 +7,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 public class RdfSingleBuild extends AbstractRdfBuild {
@@ -19,6 +20,6 @@ public class RdfSingleBuild extends AbstractRdfBuild {
         for (String key : objects.keySet())
             createForObject(config, key, objects.get(key), model);
 
-        model.write(Files.newBufferedWriter(workspace.getTargetPath("all.rdf")));
+        model.write(Files.newBufferedWriter(workspace.getTargetPath("all.rdf"), StandardCharsets.UTF_8));
     }
 }

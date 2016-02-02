@@ -8,6 +8,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +26,7 @@ public class RdfMultipleBuild extends AbstractRdfBuild {
         for (String key : keys) {
             if (!key.split("#")[0].equals(lastKey)) {
                 if (model != null && lastKey != null)
-                    model.write(Files.newBufferedWriter(workspace.getTargetPath(lastKey)));
+                    model.write(Files.newBufferedWriter(workspace.getTargetPath(lastKey), StandardCharsets.UTF_8));
 
                 model = ModelFactory.createDefaultModel();
                 model.setNsPrefix("skos", "http://www.w3.org/2004/02/skos/core#");
@@ -36,6 +37,6 @@ public class RdfMultipleBuild extends AbstractRdfBuild {
         }
 
         if (model != null && lastKey != null)
-            model.write(Files.newBufferedWriter(workspace.getTargetPath(lastKey)));
+            model.write(Files.newBufferedWriter(workspace.getTargetPath(lastKey), StandardCharsets.UTF_8));
     }
 }

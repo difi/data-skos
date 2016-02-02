@@ -11,6 +11,7 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -55,9 +56,9 @@ public class Main {
                 Files.createDirectories(path.getParent());
 
                 if (uri.equals("struktur")) {
-                    YamlInstance.getInstance().dump(n.toConceptScheme(), Files.newBufferedWriter(path));
+                    YamlInstance.getInstance().dump(n.toConceptScheme(), Files.newBufferedWriter(path, StandardCharsets.UTF_8));
                 } else {
-                    YamlInstance.getInstance().dump(n.toConcept(), Files.newBufferedWriter(path));
+                    YamlInstance.getInstance().dump(n.toConcept(), Files.newBufferedWriter(path, StandardCharsets.UTF_8));
                 }
             }
         }
@@ -79,14 +80,14 @@ public class Main {
         config.addBuild("no.difi.data.skos.builder.build.FreemarkerBuild");
         config.addOption("github", "repository", "https://github.com/difi/los");
         config.addOption("github", "issues", "https://github.com/difi/los/issues");
-        YamlInstance.getInstance().dump(config, Files.newBufferedWriter(Paths.get("los/config.yaml")));
+        YamlInstance.getInstance().dump(config, Files.newBufferedWriter(Paths.get("los/config.yaml"), StandardCharsets.UTF_8));
     }
 
     public static void addConceptScheme(String file, String labelNb, String labelNn) throws IOException {
         ConceptScheme ordConceptScheme = new ConceptScheme();
         ordConceptScheme.getLabel().addPreferred(new SkosValue(labelNb, "nb"));
         ordConceptScheme.getLabel().addPreferred(new SkosValue(labelNn, "nn"));
-        YamlInstance.getInstance().dump(ordConceptScheme, Files.newBufferedWriter(Paths.get("los/src/ontologi/" + file + ".yaml")));
+        YamlInstance.getInstance().dump(ordConceptScheme, Files.newBufferedWriter(Paths.get("los/src/ontologi/" + file + ".yaml"), StandardCharsets.UTF_8));
     }
 
     public static Node readEmne(XMLStreamReader reader) throws Exception {

@@ -6,6 +6,7 @@ import no.difi.data.skos.util.DefaultFileVisitor;
 import no.difi.data.skos.yaml.YamlInstance;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,7 +25,7 @@ public class Workspace {
     }
 
     public Config getConfig() throws IOException {
-        Config config = YamlInstance.getInstance().loadAs(Files.newBufferedReader(folder.resolve("config.yaml")), Config.class);
+        Config config = YamlInstance.getInstance().loadAs(Files.newBufferedReader(folder.resolve("config.yaml"), StandardCharsets.UTF_8), Config.class);
 
         if (config.getBasePath() == null)
             config.setBasePath(config.getBaseUri());
@@ -43,7 +44,7 @@ public class Workspace {
                 key = key.replaceAll("\\\\", "/");
                 key = key.replace(".yaml", "");
 
-                objects.put(key, (SkosObject) YamlInstance.getInstance().load(Files.newBufferedReader(file)));
+                objects.put(key, (SkosObject) YamlInstance.getInstance().load(Files.newBufferedReader(file, StandardCharsets.UTF_8)));
                 return FileVisitResult.CONTINUE;
             }
         });
