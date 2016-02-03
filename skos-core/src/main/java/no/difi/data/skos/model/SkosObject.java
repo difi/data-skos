@@ -38,7 +38,7 @@ public abstract class SkosObject {
     }
 
     public List<String> getNotation() {
-        return notation;
+        return notation == null ? new ArrayList<String>() : notation;
     }
 
     @SuppressWarnings("unused")
