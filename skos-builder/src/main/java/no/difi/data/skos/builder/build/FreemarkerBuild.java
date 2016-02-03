@@ -1,9 +1,11 @@
 package no.difi.data.skos.builder.build;
 
+import freemarker.cache.ClassTemplateLoader;
+import freemarker.cache.MultiTemplateLoader;
+import freemarker.cache.TemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import freemarker.template.TemplateExceptionHandler;
 import no.difi.data.skos.builder.Objects;
 import no.difi.data.skos.builder.Workspace;
 import no.difi.data.skos.builder.api.Build;
@@ -26,13 +28,9 @@ public class FreemarkerBuild implements Build {
     public void build(Config config, Workspace workspace, Objects objects) throws IOException {
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_23);
         configuration.setDefaultEncoding("UTF-8");
-        // During web page *development* TemplateExceptionHandler.HTML_DEBUG_HANDLER is better.
-        configuration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-        configuration.setClassForTemplateLoading(getClass(), "/freemarker");
-        /* configuration.setTemplateLoader(new MultiTemplateLoader(new TemplateLoader[]{
-                new ClassTemplateLoader(getClass(), "freemarker"),
+        configuration.setTemplateLoader(new MultiTemplateLoader(new TemplateLoader[]{
                 new ClassTemplateLoader(getClass(), "/freemarker")
-        })); */
+        }));
 
         for (String key : objects.keySet()) {
             try {

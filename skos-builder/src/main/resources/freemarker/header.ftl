@@ -22,7 +22,7 @@
 <nav class="navbar navbar-default">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">${config.name}</a>
+            <span class="navbar-brand">${config.name}</span>
         </div>
         <#if config.options['github']??>
         <ul class="nav navbar-nav navbar-right">

@@ -1,8 +1,6 @@
 package no.difi.data.skos.los;
 
-import no.difi.data.skos.model.ConceptScheme;
-import no.difi.data.skos.model.Config;
-import no.difi.data.skos.model.SkosValue;
+import no.difi.data.skos.model.*;
 import no.difi.data.skos.yaml.YamlInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +13,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Main {
@@ -44,6 +44,8 @@ public class Main {
             }
         }
 
+        Map<String, SkosObject> objects = new HashMap<>();
+
         for (String uri : map.keySet()) {
             Node n = map.get(uri);
             uri = uri.replace("http://psi.norge.no/los/", "");
@@ -52,22 +54,36 @@ public class Main {
                 if (uri.equals("tema/temastruktur"))
                     uri = "struktur";
 
-                Path path = Paths.get("los/src/" + uri + ".yaml");
-                Files.createDirectories(path.getParent());
-
                 if (uri.equals("struktur")) {
-                    YamlInstance.getInstance().dump(n.toConceptScheme(), Files.newBufferedWriter(path, StandardCharsets.UTF_8));
+                    objects.put(uri, n.toConceptScheme());
                 } else {
-                    YamlInstance.getInstance().dump(n.toConcept(), Files.newBufferedWriter(path, StandardCharsets.UTF_8));
+                    objects.put(uri, n.toConcept());
                 }
             }
+        }
+
+        List<String> uris = new ArrayList<>();
+
+        for (String uri : objects.keySet()) {
+            SkosObject o = objects.get(uri);
+            if (o instanceof Concept && ((Concept) o).getScheme().getIn().contains("ontologi/hjelpeord")) {
+                for (String foreign : ((Concept) o).getRelation().getBroaderTransitive())
+                    for (SkosValue value : o.getLabel().getPreferred())
+                        objects.get(foreign).getLabel().addHidden(value);
+            } else {
+                uris.add(uri);
+            }
+        }
+
+        for (String uri : uris) {
+            Path path = Paths.get("los/src/" + uri + ".yaml");
+            Files.createDirectories(path.getParent());
+            YamlInstance.getInstance().dump(objects.get(uri), Files.newBufferedWriter(path, StandardCharsets.UTF_8));
         }
 
         Files.createDirectories(Paths.get("los/src/ontologi"));
         addConceptScheme("tema", "Tema", "Tema");
         addConceptScheme("ord", "Ord", "Ord");
-        addConceptScheme("emneord", "Emneord", "Emneord");
-        addConceptScheme("hjelpeord", "Hjelpeord", "Hjelpeord");
 
         Config config = new Config();
         config.setBaseUri("http://psi.norge.no/los/");

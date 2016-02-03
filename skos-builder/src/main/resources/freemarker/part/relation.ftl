@@ -10,7 +10,7 @@
         </#if>
 
         <#if object.relation.narrower?has_content>
-            <dt>Transitive</dt>
+            <dt>Narrower</dt>
             <#list object.relation.narrower?sort as foreign>
                 <dd><a href="${config.basePath}${foreign}.html">${config.baseUri}${foreign}</a></dd>
             </#list>

@@ -113,14 +113,9 @@ public class Node {
         }
 
         concept.getScheme().addIn(getType().replace("http://psi.norge.no/los/", ""));
-        switch (concept.getScheme().getIn().get(0)) {
-            case "ontologi/ord":
-                if (concept.getRelation().getBroader().size() == 0)
-                    concept.getScheme().addIn("ontologi/hjelpeord");
-                else
-                    concept.getScheme().addIn("ontologi/emneord");
-                break;
-        }
+        if (concept.getScheme().getIn().get(0).equals("ontologi/ord"))
+            if (concept.getRelation().getBroader().size() == 0)
+                concept.getScheme().addIn("ontologi/hjelpeord");
 
         return concept;
     }
