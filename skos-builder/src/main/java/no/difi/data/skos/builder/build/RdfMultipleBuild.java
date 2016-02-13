@@ -25,8 +25,11 @@ public class RdfMultipleBuild extends AbstractRdfBuild {
 
         for (String key : keys) {
             if (!key.split("#")[0].equals(lastKey)) {
-                if (model != null && lastKey != null)
-                    model.write(Files.newBufferedWriter(workspace.getTargetPath(lastKey), StandardCharsets.UTF_8));
+                if (model != null && lastKey != null) {
+                    model.write(Files.newBufferedWriter(workspace.getTargetPath(lastKey + ".rdf"), StandardCharsets.UTF_8));
+                    model.write(Files.newBufferedWriter(workspace.getTargetPath(lastKey + ".ttl"), StandardCharsets.UTF_8), "TTL");
+                    // model.write(Files.newBufferedWriter(workspace.getTargetPath(lastKey + ".jsonld"), StandardCharsets.UTF_8), "JSONLD");
+                }
 
                 model = ModelFactory.createDefaultModel();
                 model.setNsPrefix("skos", "http://www.w3.org/2004/02/skos/core#");
@@ -36,7 +39,10 @@ public class RdfMultipleBuild extends AbstractRdfBuild {
             createForObject(config, key, objects.get(key), model);
         }
 
-        if (model != null && lastKey != null)
-            model.write(Files.newBufferedWriter(workspace.getTargetPath(lastKey), StandardCharsets.UTF_8));
+        if (model != null && lastKey != null) {
+            model.write(Files.newBufferedWriter(workspace.getTargetPath(lastKey + ".rdf"), StandardCharsets.UTF_8));
+            model.write(Files.newBufferedWriter(workspace.getTargetPath(lastKey + ".ttl"), StandardCharsets.UTF_8), "TTL");
+            // model.write(Files.newBufferedWriter(workspace.getTargetPath(lastKey + ".jsonld"), StandardCharsets.UTF_8), "JSONLD");
+        }
     }
 }

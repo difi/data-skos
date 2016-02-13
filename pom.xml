@@ -20,6 +20,7 @@
     <properties>
         <java.encoding>UTF-8</java.encoding>
         <java.version>1.7</java.version>
+        <jena.version>3.0.1</jena.version>
         <slf4j.version>1.7.14</slf4j.version>
     </properties>
 
@@ -45,7 +46,12 @@
             <dependency>
                 <groupId>org.apache.jena</groupId>
                 <artifactId>jena-core</artifactId>
-                <version>3.0.1</version>
+                <version>${jena.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.jena</groupId>
+                <artifactId>jena-arq</artifactId>
+                <version>${jena.version}</version>
             </dependency>
 
             <!-- SnakeYAML -->

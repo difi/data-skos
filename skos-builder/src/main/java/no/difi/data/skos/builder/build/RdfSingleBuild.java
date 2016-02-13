@@ -21,5 +21,7 @@ public class RdfSingleBuild extends AbstractRdfBuild {
             createForObject(config, key, objects.get(key), model);
 
         model.write(Files.newBufferedWriter(workspace.getTargetPath("all.rdf"), StandardCharsets.UTF_8));
+        model.write(Files.newBufferedWriter(workspace.getTargetPath("all.ttl"), StandardCharsets.UTF_8), "TTL");
+        // model.write(Files.newBufferedWriter(workspace.getTargetPath("all.jsonld"), StandardCharsets.UTF_8), "JSONLD");
     }
 }
